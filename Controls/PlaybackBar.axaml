@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="GraphLab.Controls.PlaybackBar">
+    <StackPanel Spacing="6">
+        <Grid ColumnDefinitions="*,Auto">
+            <TextBlock x:Name="StepTitle" Text="Алгоритм ещё не запущен" FontSize="12" FontWeight="SemiBold"
+                       Foreground="#C9F7FF" TextWrapping="Wrap" MaxLines="2" VerticalAlignment="Center" />
+            <ComboBox x:Name="SpeedBox" Grid.Column="1" Width="84" SelectedIndex="1" Margin="8,0,0,0"
+                      ToolTip.Tip="Скорость автоматической демонстрации">
+                <ComboBoxItem Content="0.5×" />
+                <ComboBoxItem Content="1×" />
+                <ComboBoxItem Content="1.5×" />
+                <ComboBoxItem Content="2×" />
+            </ComboBox>
+        </Grid>
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <StackPanel Orientation="Horizontal" Spacing="7">
+                <Button x:Name="ResetButton" Classes="icon" Content="⏮" ToolTip.Tip="Сначала (в начало)" />
+                <Button x:Name="BackButton" Classes="icon" Content="◀" ToolTip.Tip="Шаг назад" />
+                <Button x:Name="PlayButton" Classes="primary" Content="▶ Пуск" MinWidth="94"
+                        ToolTip.Tip="Запуск / пауза автоматической демонстрации" />
+                <Button x:Name="ForwardButton" Classes="icon" Content="▶" ToolTip.Tip="Шаг вперёд" />
+            </StackPanel>
+            <Border Grid.Column="2" Classes="pill" VerticalAlignment="Center">
+                <TextBlock x:Name="PositionText" Text="— / —" Classes="tiny mono" />
+            </Border>
+        </Grid>
+        <Slider x:Name="ProgressSlider" Minimum="0" Maximum="1" Value="0" IsSnapToTickEnabled="True"
+                TickFrequency="1" />
+    </StackPanel>
+</UserControl>

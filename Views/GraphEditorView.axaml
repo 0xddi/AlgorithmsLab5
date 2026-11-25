@@ -1,0 +1,164 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:GraphLab.Controls"
+             x:Class="GraphLab.Views.GraphEditorView">
+    <Grid RowDefinitions="Auto,*" Margin="18,12,18,14">
+        <Border Classes="taskHeader">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Border Classes="numberBadge">
+                    <TextBlock Text="01" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <StackPanel Grid.Column="1" Margin="14,0,16,0" Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="Обход взвешенного графа" Classes="h1" FontSize="22" />
+                        <Border Classes="pill" VerticalAlignment="Center">
+                            <TextBlock Text="BFS · DFS" Classes="tiny" Foreground="#C9F7FF" />
+                        </Border>
+                    </StackPanel>
+                    <TextBlock Classes="muted" TextWrapping="Wrap"
+                               Text="Полноценный редактор графа: добавляйте и перемещайте вершины, соединяйте их рёбрами, меняйте веса и метки. Затем запустите пошаговый обход в ширину или в глубину с анимацией и журналом." />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Spacing="5" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Border Classes="pill"><TextBlock Text="матрица смежности · CSV" Classes="tiny" /></Border>
+                    <Border Classes="pill"><TextBlock Text="JSON сохранение / загрузка" Classes="tiny" /></Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,418" Margin="0,12,0,0">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <Border Classes="card" Padding="10">
+                    <controls:GraphToolbox x:Name="Toolbar" />
+                </Border>
+
+                <Border Grid.Row="1" Classes="canvasCard" Margin="0,10,0,0">
+                    <Grid>
+                        <controls:GraphView x:Name="GraphCanvas" />
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="12" Classes="hintPill" Background="#B80A1220">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <Border Width="9" Height="9" CornerRadius="5" Background="#FBBF24" VerticalAlignment="Center" />
+                                    <TextBlock Text="текущая" Classes="tiny" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <Border Width="9" Height="9" CornerRadius="5" Background="#34D399" VerticalAlignment="Center" />
+                                    <TextBlock Text="посещена" Classes="tiny" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <Border Width="9" Height="9" CornerRadius="5" Background="#A78BFA" VerticalAlignment="Center" />
+                                    <TextBlock Text="в очереди / стеке" Classes="tiny" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <Border Width="9" Height="9" CornerRadius="5" Background="#22D3EE" VerticalAlignment="Center" />
+                                    <TextBlock Text="ребро дерева" Classes="tiny" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="12" Classes="hintPill" MaxWidth="720">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="●" Foreground="#22D3EE" VerticalAlignment="Center" />
+                                <TextBlock x:Name="CanvasHint" Text="Выберите вершину для старта и постройте обход." Classes="tiny" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2" Classes="card" Margin="0,10,0,0">
+                    <Grid RowDefinitions="Auto,*">
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="МАТРИЦА СМЕЖНОСТИ" Classes="sectionTitle" />
+                                <TextBlock Text="0 — ребра нет; значения — веса. Матрицу можно править вручную и применить заново."
+                                           Classes="tiny" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                <Button x:Name="ApplyMatrixButton" Classes="primary small" Content="Применить матрицу" />
+                                <Button x:Name="ImportCsvButton" Classes="ghost small" Content="Импорт CSV" />
+                                <Button x:Name="ExportCsvButton" Classes="ghost small" Content="Экспорт CSV" />
+                            </StackPanel>
+                        </Grid>
+                        <TextBox Grid.Row="1" x:Name="MatrixBox" Height="128" AcceptsReturn="True"
+                                 TextWrapping="NoWrap" FontFamily="Cascadia Mono,Consolas,monospace" FontSize="10.5"
+                                 VerticalContentAlignment="Top" HorizontalContentAlignment="Left"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                 PlaceholderText="Матрица смежности в формате CSV" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Column="1" RowDefinitions="*,Auto,Auto" Margin="12,0,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Spacing="10">
+                        <Border Classes="card">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="ПАРАМЕТРЫ ОБХОДА" Classes="sectionTitle" />
+                                <Grid ColumnDefinitions="*,*">
+                                    <StackPanel Spacing="4" Margin="0,0,5,0">
+                                        <TextBlock Text="Алгоритм" Classes="tiny" />
+                                        <ComboBox x:Name="AlgorithmBox" SelectedIndex="0">
+                                            <ComboBoxItem Content="BFS — в ширину" />
+                                            <ComboBoxItem Content="DFS — в глубину" />
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Spacing="4" Margin="5,0,0,0">
+                                        <TextBlock Text="Стартовая вершина" Classes="tiny" />
+                                        <ComboBox x:Name="StartBox">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Label}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Spacing="4" Margin="0,0,8,0">
+                                        <TextBlock Text="Порядок просмотра соседей" Classes="tiny" />
+                                        <ComboBox x:Name="NeighborOrderBox" SelectedIndex="0">
+                                            <ComboBoxItem Content="По метке вершины" />
+                                            <ComboBoxItem Content="По весу ребра" />
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <Button x:Name="BuildButton" Grid.Column="1" Classes="primary" Content="Построить обход"
+                                            VerticalAlignment="Bottom" Padding="16,8" />
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <Button x:Name="SaveGraphButton" Classes="ghost small" Content="💾 Сохранить граф" />
+                                    <Button x:Name="LoadGraphButton" Classes="ghost small" Content="📂 Загрузить граф" />
+                                </StackPanel>
+                                <Expander Header="Как работает обход? (теория)" FontSize="12">
+                                    <TextBlock Classes="muted" TextWrapping="Wrap" Margin="0,6,0,0" LineHeight="18"
+                                               Text="BFS посещает граф слоями: сначала старт, затем всех его соседей, затем соседей соседей. Для этого используется очередь. DFS идёт вглубь по первому выбранному направлению, пока это возможно, а затем возвращается назад — используется стек. Взвешенные рёбра показывают вес, но сам обход зависит только от структуры связей и выбранного порядка соседей. Сложность обоих алгоритмов — O(V + E)." />
+                                </Expander>
+                            </StackPanel>
+                        </Border>
+
+                        <controls:GraphInspector x:Name="Inspector" />
+                    </StackPanel>
+                </ScrollViewer>
+
+                <controls:JournalPanel Grid.Row="1" x:Name="Journal" Height="160" Margin="0,10,0,0" />
+
+                <Border Grid.Row="2" Classes="card" Margin="0,10,0,0">
+                    <StackPanel Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="УПРАВЛЕНИЕ ДЕМОНСТРАЦИЕЙ" Classes="sectionTitle" VerticalAlignment="Center" />
+                            <Border Grid.Column="1" Classes="pill" Padding="8,2">
+                                <TextBlock Text="анимация" Classes="tiny" Foreground="#C9F7FF" />
+                            </Border>
+                        </Grid>
+                        <controls:PlaybackBar x:Name="Playback" />
+                        <Border Background="#0A1220" BorderBrush="#1E2C45" BorderThickness="1" CornerRadius="9" Padding="10,7">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="РЕЗУЛЬТАТ" Classes="tiny" Foreground="#7E93B5" />
+                                <TextBlock x:Name="ResultText" Text="Постройте обход, чтобы увидеть порядок посещения." Classes="metric" TextWrapping="Wrap" FontSize="12.5" />
+                            </StackPanel>
+                        </Border>
+                        <TextBlock x:Name="NoticeText" Classes="tiny" TextWrapping="Wrap" IsVisible="False" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="GraphLab.Controls.GraphToolbox">
+    <Grid RowDefinitions="Auto,Auto">
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+            <ToggleButton x:Name="SelectModeButton" Classes="mode" Content="↖ Выбор" IsChecked="True"
+                          ToolTip.Tip="Выбор и перетаскивание вершин" />
+            <ToggleButton x:Name="AddNodeButton" Classes="mode" Content="＋ Вершина" Margin="6,0,0,0"
+                          ToolTip.Tip="Добавить вершину кликом по холсту" />
+            <ToggleButton x:Name="AddEdgeButton" Classes="mode" Content="＋ Ребро" Margin="6,0,0,0"
+                          ToolTip.Tip="Соединить две вершины ребром" />
+            <ToggleButton x:Name="DeleteModeButton" Classes="mode" Content="✕ Удалить" Margin="6,0,0,0"
+                          ToolTip.Tip="Удалить вершину или ребро" />
+            <Border Classes="separator" Height="22" />
+            <TextBlock x:Name="ValueLabel" Text="Вес ребра" Classes="muted" VerticalAlignment="Center" Margin="2,0,6,0" />
+            <NumericUpDown x:Name="ValueBox" Width="112" Minimum="0.1" Maximum="99999" Increment="1"
+                           FormatString="0.##" Value="5" VerticalAlignment="Center"
+                           ToolTip.Tip="Значение для новых рёбер" />
+            <CheckBox x:Name="DirectedCheck" Content="Ориентированный" Margin="12,0,0,0" VerticalAlignment="Center"
+                      ToolTip.Tip="Показывать направленные рёбра и учитывать направление в алгоритмах" />
+        </WrapPanel>
+
+        <WrapPanel Grid.Row="1" Orientation="Horizontal" Margin="0,8,0,0" VerticalAlignment="Center">
+            <TextBlock Text="Раскладка" Classes="muted" VerticalAlignment="Center" Margin="0,0,6,0" />
+            <ComboBox x:Name="LayoutBox" Width="132" SelectedIndex="0">
+                <ComboBoxItem Content="По кругу" />
+                <ComboBoxItem Content="Сеткой" />
+                <ComboBoxItem Content="Пружинная" />
+            </ComboBox>
+            <Button x:Name="LayoutButton" Classes="ghost small" Content="Разложить" Margin="6,0,0,0"
+                    ToolTip.Tip="Красиво расположить вершины (с анимацией)" />
+            <Border Classes="separator" Height="22" />
+            <Button x:Name="SampleButton" Classes="ghost small" Content="Пример" Margin="2,0,0,0"
+                    ToolTip.Tip="Загрузить демонстрационный граф" />
+            <Button x:Name="ClearButton" Classes="danger small" Content="Очистить" Margin="6,0,0,0"
+                    ToolTip.Tip="Удалить все вершины и рёбра" />
+            <TextBlock Text="ЛКМ — выбрать/тащить · ПКМ-режимы сверху · Del — удалить · Esc — отмена"
+                       Classes="tiny" VerticalAlignment="Center" Margin="12,0,0,0" />
+        </WrapPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="GraphLab.Controls.JournalPanel">
+    <Border Classes="card">
+        <Grid RowDefinitions="Auto,*">
+            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                <StackPanel Spacing="2">
+                    <TextBlock Text="ЖУРНАЛ ОПЕРАЦИЙ" Classes="sectionTitle" />
+                    <TextBlock Text="пошаговые пояснения и история действий" Classes="tiny" />
+                </StackPanel>
+                <Border Grid.Column="1" Classes="pill" Padding="8,2" VerticalAlignment="Center">
+                    <TextBlock x:Name="EntryCount" Text="0 шагов" Classes="tiny" />
+                </Border>
+            </Grid>
+            <Border Grid.Row="1" Background="#0A1220" BorderBrush="#1E2C45" BorderThickness="1" CornerRadius="10" Padding="10,8">
+                <ScrollViewer x:Name="JournalScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl x:Name="JournalItems">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Classes="journalText" TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>
